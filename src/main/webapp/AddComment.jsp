@@ -3,51 +3,85 @@
 <html>
 <head>
 <title>Comment</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 	<form action="AddCommentServlet" method="POST">
-		<table>
-			<tr>
-				<td><b><c:out value="${postData.title}" /></b></td>
-			</tr>
-			<tr>
-				<td><c:out value="${postData.content}" /></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="postId" value="${postData.id}" /></td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
-			<tr><td><b>Comments</b><br></td></tr>
-			<c:forEach var="comment" items="${postData.comments}">
-			
-				<tr>
-					<td><c:out value="${comment.name}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${comment.email}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${comment.content}" /></td>
-				</tr>
-			</c:forEach>
-			<tr>
-				<td>Leave a Reply<br></td>
-			</tr>
-			<tr>
-				<td><textarea rows="4" cols="50" name="content"></textarea></td>
-			</tr>
-			<tr>
-				<td>Name :<input type="text" name="name" /><br></td>
-			</tr>
-			<tr>
-				<td>Email :<input type="text" name="email" /></td>
-			</tr>			
-			<tr>
-				<td align="right"><input type="submit" value="submit"></td>
-			</tr>
-		</table>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+						aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="MainPageServlet">MyBlog</a>
+				</div>
+			</div>
+		</nav>
+		<div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">${postData.title}</h3>
+				</div>
+				<div class="panel-body">${postData.content}</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10">
+					<input type="hidden" name="postId" value="${postData.id}" /> <br>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label for="inputComments" class="col-sm-2 control-label">Comments</label>
+				<div class="col-sm-10">
+					<c:forEach var="comment" items="${postData.comments}">
+						<c:out value="${comment.content}" />
+						<br>
+						<c:out value="${comment.name}" />
+						<br>
+						<c:out value="${comment.email}" />
+						<br>
+						<br>
+					</c:forEach>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputComment" class="col-sm-2 control-label">Leave
+					a Reply</label><br>
+				<div class="col-sm-10">
+					<textarea class="form-control" placeholder="Post Content" rows="6"
+						name="content"></textarea>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label for="inputName" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-10">
+					<input type="text" name="name" class="form-control"> <br>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<label for="inputName" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input type="text" name="email" class="form-control"> <br>
+				</div>
+			</div>
+			<br>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<a href="MainPageServlet" class="btn btn-default">Cancel</a>
+					&nbsp;&nbsp; <input class="btn btn-primary" type="submit"
+						value="submit">
+
+				</div>
+			</div>
+		</div>
 	</form>
 </body>
 </html>

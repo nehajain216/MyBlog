@@ -20,11 +20,9 @@ import javax.servlet.http.HttpSession;
 public class RequestLoggingFilters implements Filter {
 
 	public RequestLoggingFilters() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -34,7 +32,7 @@ public class RequestLoggingFilters implements Filter {
 		String requestURI = ((HttpServletRequest) request).getRequestURI();
 
 		Boolean defaultPage = false;
-		List<String> defaultURI = Arrays.asList("/LoginPage.jsp", "/LoginServlet", "/HomePage.jsp", "/HomePageServlet");
+		List<String> defaultURI = Arrays.asList("/LoginPage.jsp", "/LoginServlet", "/MainPage.jsp", "/MainPageServlet");
 		for (String uri : defaultURI) {
 			if ((contextRoot + uri).equals(requestURI)) {
 				defaultPage = true;
@@ -48,7 +46,7 @@ public class RequestLoggingFilters implements Filter {
 			if (loginUser != null)
 				chain.doFilter(request, response);
 			else
-				((HttpServletResponse) response).sendRedirect("HomePageServlet");
+				((HttpServletResponse) response).sendRedirect("MainPageServlet");
 		}
 	}
 

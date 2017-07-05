@@ -1,6 +1,8 @@
 package com.nj.myblog.servlets;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +26,21 @@ public class AddPost extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		String title = request.getParameter("title");
+		String content = request.getParameter("content");
+		if(title.isEmpty() || content.isEmpty())
+		{
+			Post post = new Post();
+			post.setTitle(title);
+			post.setContent(content);
+			request.setAttribute("postData", post);
+			//session.invalidate();
+            request.setAttribute("errorMessage", "Both Title and Content is required. Please update.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("AddPost.jsp");
+			dispatcher.forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
@@ -33,15 +49,22 @@ public class AddPost extends HttpServlet {
 		{
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
-			Post post = new Post();
-			post.setTitle(title);
-			post.setContent(content);
-			HttpSession session = request.getSession();
-			User createdBy = (User) session.getAttribute("User_Login");
-			post.setCreatedBy(createdBy);
-			System.out.println("User Id"+createdBy.getId());
-			myblogServices.createPost(post);
-			response.sendRedirect("MainPageServlet");
+			if(!title.isEmpty() && !content.isEmpty())
+			{
+				Post post = new Post();
+				post.setTitle(title);
+				post.setContent(content);
+				HttpSession session = request.getSession();
+				User createdBy = (User) session.getAttribute("User_Login");
+				post.setCreatedBy(createdBy);
+				myblogServices.createPost(post);
+				response.sendRedirect("MainPageServlet");
+			}
+			else
+			{
+				doGet(request,response);
+			}
+			
 		}
 		catch(Exception e)
 		{

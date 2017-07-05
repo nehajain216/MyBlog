@@ -20,16 +20,8 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">MyBlog</a>
+				<a class="navbar-brand" href="MainPageServlet">MyBlog</a>
 			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
 		</div>
 	</nav>
 
@@ -55,8 +47,7 @@
 								class="form-control" id="password" name="password"
 								placeholder="Password">
 						</div>
-						<input type="submit" value="submit" class="btn btn-primary">
-
+						<input type="submit" value="submit" class="btn btn-primary">						
 					</form>
 
 				</div>

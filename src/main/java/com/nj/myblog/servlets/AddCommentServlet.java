@@ -43,7 +43,7 @@ public class AddCommentServlet extends HttpServlet {
 			comment.setEmail(request.getParameter("email"));
 			comment.setContent(request.getParameter("content"));
 			myblogServices.createComment(Integer.valueOf(request.getParameter("postId")), comment);
-			response.sendRedirect("HomePageServlet");
+			response.sendRedirect("MainPageServlet");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

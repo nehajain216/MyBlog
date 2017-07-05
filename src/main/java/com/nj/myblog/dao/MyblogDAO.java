@@ -20,26 +20,21 @@ public class MyblogDAO {
 	}
 
 	public User login(String email, String password) {
-		
-		User user=null;
-		try
-		{
+
+		User user = null;
+		try {
 			EntityManager em = PersistenceManager.getEntityManager();
-			
+
 			user = em.createQuery("select u from User u where u.email=:email AND u.password=:password", User.class)
 					.setParameter("email", email).setParameter("password", password).getSingleResult();
-		}
-		catch (NoResultException nre) {
-			 // Code for handling NoResultException
-			 } catch (NonUniqueResultException nure) {
-			 // Code for handling NonUniqueResultException
-			}
-		catch(Exception e)
-		{
+		} catch (NoResultException nre) {
+
+		} catch (NonUniqueResultException nure) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if(user != null)
+
+		if (user != null)
 			return user;
 		else
 			return null;
@@ -50,9 +45,8 @@ public class MyblogDAO {
 		return em.createQuery("select u from  u where u.email=:email", User.class).setParameter("email", email)
 				.getResultList();
 	}
-	
-	public User getUserById(int id)
-	{
+
+	public User getUserById(int id) {
 		EntityManager em = PersistenceManager.getEntityManager();
 		return em.find(User.class, id);
 	}
@@ -69,9 +63,8 @@ public class MyblogDAO {
 		}
 		return user;
 	}
-	
-	public User updateUser(User user) 
-	{
+
+	public User updateUser(User user) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
@@ -88,9 +81,8 @@ public class MyblogDAO {
 		}
 		return user;
 	}
-	
-	public void deleteUser(int userId) 
-	{
+
+	public void deleteUser(int userId) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
@@ -109,31 +101,42 @@ public class MyblogDAO {
 		List<Role> roles = em.createQuery("select r from Role r", Role.class).getResultList();
 		return roles;
 	}
-	
+
 	public List<Post> getAllPost() {
 		EntityManager em = PersistenceManager.getEntityManager();
 		return em.createQuery("select p from Post p", Post.class).getResultList();
 	}
-	
-	public List<Post> getPostByUserId(int userId)
-	{
+
+	public List<Post> getPostByUserId(int userId) {
 		List<Post> post = null;
-		EntityManager em = PersistenceManager.getEntityManager();		
-		post = em.createQuery("select p from Post p where p.createdBy =:userId",Post.class).setParameter("userId", userId).getResultList();
+		EntityManager em = PersistenceManager.getEntityManager();
+		post = em.createQuery("select p from Post p where p.createdBy =:userId", Post.class)
+				.setParameter("userId", userId).getResultList();
 		return post;
 	}
-	
-	public Post getPostById(int postId)
+
+	public Post getPostById(int postId) 
 	{
-		EntityManager em = PersistenceManager.getEntityManager();		
-		Post post = (Post) em.createQuery("select p from Post p where p.id =:postId",Post.class).setParameter("postId", postId).getSingleResult();
+		Post post= null;
+		try 
+		{
+			EntityManager em = PersistenceManager.getEntityManager();
+			post = (Post) em.createQuery("select p from Post p where p.id =:postId", Post.class)
+					.setParameter("postId", postId).getSingleResult();
+			
+		} catch (NoResultException nre) {
+
+		} catch (NonUniqueResultException nure) {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return post;
 	}
-	
+
 	public Post createPost(Post post) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
-			em.getTransaction().begin();		
+			em.getTransaction().begin();
 			em.merge(post);
 			em.getTransaction().commit();
 			em.close();
@@ -142,9 +145,8 @@ public class MyblogDAO {
 		}
 		return post;
 	}
-	
-	public Post updatePost(Post post) 
-	{
+
+	public Post updatePost(Post post) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
@@ -159,9 +161,8 @@ public class MyblogDAO {
 		}
 		return post;
 	}
-	
-	public void deletePost(int postId) 
-	{
+
+	public void deletePost(int postId) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
@@ -173,18 +174,19 @@ public class MyblogDAO {
 			e.printStackTrace();
 		}
 	}
-	
-	public Comment getCommentById(int commentId)
-	{
-		EntityManager em = PersistenceManager.getEntityManager();		
-		Comment comment = (Comment) em.createQuery("select c from Comment c where c.id =:commentId",Comment.class).setParameter("commentId", commentId).getSingleResult();
+
+	public Comment getCommentById(int commentId) {
+		EntityManager em = PersistenceManager.getEntityManager();
+		Comment comment = (Comment) em.createQuery("select c from Comment c where c.id =:commentId", Comment.class)
+				.setParameter("commentId", commentId).getSingleResult();
 		return comment;
 	}
-	public Comment createComment(int postId,Comment comment) {
+
+	public Comment createComment(int postId, Comment comment) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
-			Post post= em.find(Post.class,postId);
+			Post post = em.find(Post.class, postId);
 			post.getComments().add(comment);
 			em.getTransaction().commit();
 			em.close();
@@ -194,8 +196,7 @@ public class MyblogDAO {
 		return comment;
 	}
 
-	public Comment updateComment(Comment comment) 
-	{
+	public Comment updateComment(Comment comment) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();
@@ -209,9 +210,8 @@ public class MyblogDAO {
 		}
 		return comment;
 	}
-	
-	public void deleteComment(int commentId) 
-	{
+
+	public void deleteComment(int commentId) {
 		try {
 			EntityManager em = PersistenceManager.getEntityManager();
 			em.getTransaction().begin();

@@ -52,8 +52,18 @@ public class EditPostServlet extends HttpServlet {
 			post.setContent(content);
 			post.setTitle(title);
 			post.setId(Integer.valueOf(postId));
-			myblogServices.updatePost(post);
-			response.sendRedirect("MainPageServlet");
+			if(!title.isEmpty() && !content.isEmpty())
+			{
+				myblogServices.updatePost(post);
+				response.sendRedirect("MainPageServlet");
+			}
+			else
+			{
+				request.setAttribute("errorMessage", "Both Title and Content is required. Please update.");
+				request.setAttribute("postData", post);
+				request.getRequestDispatcher("EditPost.jsp").forward(request, response);
+			}
+			
 		}
 		catch(Exception e)
 		{

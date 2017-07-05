@@ -3,50 +3,82 @@
 <html>
 <head>
 <title>Edit Post</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 	<form action="EditPostServlet" method="POST">
-		<table>
-			<tr>
-				<td><input type="text" name="title" value="${postData.title}" /></td>
-			</tr>
-			<tr>
-				<td><textarea rows="4" cols="50" name="content">${postData.content}</textarea></td>
-			</tr>
-			<tr>
-				<td><input type="hidden" name="postId" value="${postData.id}" /></td>
-			</tr>
-			<tr>
-				<td align="right"><input type="submit" value="submit"></td>
-			</tr>
-			<tr>
-				<td align="right"><a href="MainPageServlet">Back</a></td>
-			</tr>
-			<tr>
-				<td><br></td>
-			</tr>
-			<tr>
-				<td><b>Comments</b><br></td>
-			</tr>
-			<c:forEach var="comment" items="${postData.comments}">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+						aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="MainPageServlet">MyBlog</a>
+				</div>
+			</div>
+		</nav>
+		<div>
+			<div style="color: #ff0000">
+				<c:if test="${not empty errorMessage}">
+					<c:out value="${errorMessage}" />
+				</c:if>
+			</div>
+			<div class="form-group">
+				<label for="inputTitle" class="col-sm-2 control-label">Title</label>
+				<div class="col-sm-10">
+					<input type="text" name="title" value="${postData.title}"
+						class="form-control" placeholder="Post Title"> <br>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputContent" class="col-sm-2 control-label">Content</label>
+				<div class="col-sm-10">
+					<textarea class="form-control" placeholder="Post Content" rows="6"
+						name="content">${postData.content}</textarea>
+					<br>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10">
+					<input type="hidden" name="postId" value="${postData.id}" /> <br>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<a href="MainPageServlet" class="btn btn-default">Cancel</a>
+					&nbsp;&nbsp; <input class="btn btn-primary" type="submit"
+						value="submit">
 
-				<tr>
-					<td><c:out value="${comment.name}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${comment.email}" /></td>
-				</tr>
-				<tr>
-					<td><c:out value="${comment.content}" /></td>
-				</tr>
-				<tr>
-					<td><a href="EditComment?id=${comment.id}">Edit</a></td>
-				</tr>
-				<tr>
-					<td><a href="DeleteCommentServlet?id=${comment.id}&postId=${postData.id}">Delete</a></td>
-				</tr>
-			</c:forEach>
-		</table>
+				</div>
+			</div>
+			<br> <br>
+			<div class="form-group">
+				<label for="inputTitle" class="col-sm-2 control-label">Comments</label>
+				<div class="col-sm-10"></div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">
+					<c:forEach var="comment" items="${postData.comments}">
+						<c:out value="${comment.name}" />
+						<br>
+						<c:out value="${comment.email}" />
+						<br>
+						<c:out value="${comment.content}" />
+						<br>
+						<a href="EditComment?id=${comment.id}&postId=${postData.id}">Edit</a>&nbsp; &nbsp; <a
+							href="DeleteCommentServlet?id=${comment.id}&postId=${postData.id}"
+							onclick="return confirm('Are you sure you want to Delete?');">Delete</a><br>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+
 	</form>
 </body>
 </html>

@@ -26,6 +26,8 @@ public class EditComment extends HttpServlet {
 		try
 		{
 			String commentId = request.getParameter("id");
+			String postId = request.getParameter("postId");
+			request.setAttribute("postId", postId);
 			Comment comment = myblogServices.getCommentById(Integer.valueOf(commentId));
 			request.setAttribute("commentData", comment);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("EditComment.jsp");
@@ -42,11 +44,12 @@ public class EditComment extends HttpServlet {
 		{
 			String content = request.getParameter("content");
 			String commentId =request.getParameter("commentId");
+			String postId = request.getParameter("postId");
 			Comment comment = new Comment();
 			comment.setContent(content);
 			comment.setId(Integer.valueOf(commentId));
 			myblogServices.updateComment(comment);
-			response.sendRedirect("MainPageServlet");
+			response.sendRedirect("EditPostServlet?id="+postId);
 		}
 		catch(Exception e)
 		{

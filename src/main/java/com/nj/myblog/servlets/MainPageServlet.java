@@ -2,7 +2,6 @@ package com.nj.myblog.servlets;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -26,22 +25,18 @@ public class MainPageServlet extends HttpServlet {
     
     public MainPageServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		List<Post> post = new ArrayList<Post>();
 		try
 		{
 			HttpSession session = request.getSession(true);
 			User user = (User) session.getAttribute("User_Login");
 			request.setAttribute("UserRole", user);
-			int userId = user.getId();
-			System.out.println(userId);
-			post = myblogServices.getAllPost();
-			request.setAttribute("Posts", post);
+			List<Post> allPosts = myblogServices.getAllPost();
+			request.setAttribute("Posts", allPosts);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("MainPage.jsp");
 			dispatcher.forward(request, response);
 		}
